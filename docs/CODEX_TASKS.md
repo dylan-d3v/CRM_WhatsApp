@@ -29,7 +29,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T02 - Configurar UI base
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: dejar base visual reusable.
 - Entregables:
   - Tailwind activo.

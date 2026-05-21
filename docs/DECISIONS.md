@@ -35,3 +35,8 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: incluir `business_id` en entidades desde el dia 1.
 - Motivo: evitar migraciones costosas al pasar de app unica a multi-negocio.
 
+## 2026-05-21 - Base UI del MVP
+
+- Decision: activar Tailwind CSS y configurar base inicial de `shadcn/ui` con `components.json`, utilidad `cn` y componente `Button`.
+- Motivo: acelerar la construccion de pantallas MVP reutilizando primitives consistentes.
+- Implicacion: el shell principal queda mobile-first y listo para conectar modulos de clientes, servicios y citas.

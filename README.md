@@ -13,8 +13,10 @@ Resolver 4 problemas reales:
 
 ## Estado Actual
 
-- Estado del repo: planificacion y documentacion.
-- Implementacion: pendiente (se ejecutara por tareas en otra sesion).
+- Estado del repo: implementacion inicial en curso por tareas.
+- Implementacion completada:
+  - `T01 - Inicializar proyecto base`
+  - `T02 - Configurar UI base`
 
 ## Documentos Clave
 
@@ -39,4 +41,3 @@ Resolver 4 problemas reales:
 2. Ejecutar la siguiente tarea pendiente en orden.
 3. Validar criterios de aceptacion y pruebas.
 4. Actualizar estado de tarea y `docs/DECISIONS.md` si aplica.
-

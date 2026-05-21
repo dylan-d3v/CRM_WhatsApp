@@ -1,66 +1,61 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { AppShell } from "@/components/layout/app-shell";
+import { Button } from "@/components/ui/button";
+
+const todayMetrics = [
+  { label: "Citas de hoy", value: "12" },
+  { label: "Confirmadas", value: "7" },
+  { label: "Pendientes", value: "3" },
+  { label: "Canceladas", value: "2" },
+];
+
+const upcomingAppointments = [
+  { time: "09:00", customer: "Mariana P.", service: "Corte + lavado", status: "Confirmada" },
+  { time: "10:30", customer: "Carlos M.", service: "Barba premium", status: "Pendiente" },
+  { time: "12:00", customer: "Sofia G.", service: "Tinte completo", status: "Confirmada" },
+];
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <AppShell>
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {todayMetrics.map((metric) => (
+          <article key={metric.label} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <p className="text-sm text-slate-500">{metric.label}</p>
+            <p className="mt-2 text-3xl font-bold text-slate-900">{metric.value}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-bold text-slate-900">Proximas citas</h2>
+            <p className="text-sm text-slate-500">
+              Base visual lista para conectar datos reales en los siguientes modulos.
+            </p>
+          </div>
+          <Button size="sm">Nueva cita</Button>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        <ul className="mt-5 space-y-3">
+          {upcomingAppointments.map((appointment) => (
+            <li
+              key={`${appointment.time}-${appointment.customer}`}
+              className="rounded-lg border border-slate-100 bg-slate-50 p-3"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <p className="font-semibold text-slate-900">{appointment.customer}</p>
+                <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">
+                  {appointment.status}
+                </span>
+              </div>
+              <p className="mt-1 text-sm text-slate-600">
+                {appointment.time} - {appointment.service}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </AppShell>
   );
 }
