@@ -14,7 +14,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T01 - Inicializar proyecto base
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: crear app Next.js con TypeScript y estructura inicial.
 - Entregables:
   - Scaffold Next.js.
@@ -167,4 +167,3 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
   - Presentacion fluida en menos de 3 minutos.
 - Verificacion:
   - Simulacion de demo completa.
-
