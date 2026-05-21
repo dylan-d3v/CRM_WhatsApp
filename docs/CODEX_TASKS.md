@@ -42,7 +42,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T03 - Configurar Supabase y entorno
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: preparar conexion DB/Auth.
 - Entregables:
   - Cliente supabase server/browser.

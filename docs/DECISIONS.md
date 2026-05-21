@@ -40,3 +40,9 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: activar Tailwind CSS y configurar base inicial de `shadcn/ui` con `components.json`, utilidad `cn` y componente `Button`.
 - Motivo: acelerar la construccion de pantallas MVP reutilizando primitives consistentes.
 - Implicacion: el shell principal queda mobile-first y listo para conectar modulos de clientes, servicios y citas.
+
+## 2026-05-21 - Integracion base de Supabase SSR
+
+- Decision: usar `@supabase/supabase-js` + `@supabase/ssr` con utilidades separadas para cliente browser y servidor.
+- Motivo: alinear auth/DB con App Router desde el inicio sin usar paquetes legacy.
+- Implicacion: se estandariza `.env.example` con `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, y se agrega helper para detectar sesion en servidor.

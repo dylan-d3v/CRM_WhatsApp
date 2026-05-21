@@ -17,6 +17,7 @@ Resolver 4 problemas reales:
 - Implementacion completada:
   - `T01 - Inicializar proyecto base`
   - `T02 - Configurar UI base`
+  - `T03 - Configurar Supabase y entorno`
 
 ## Documentos Clave
 

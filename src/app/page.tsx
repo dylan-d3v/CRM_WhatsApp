@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { Button } from "@/components/ui/button";
+import { getSessionStatus } from "@/lib/auth/session";
 
 const todayMetrics = [
   { label: "Citas de hoy", value: "12" },
@@ -14,7 +15,9 @@ const upcomingAppointments = [
   { time: "12:00", customer: "Sofia G.", service: "Tinte completo", status: "Confirmada" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const sessionStatus = await getSessionStatus();
+
   return (
     <AppShell>
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -24,6 +27,17 @@ export default function Home() {
             <p className="mt-2 text-3xl font-bold text-slate-900">{metric.value}</p>
           </article>
         ))}
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+        <h2 className="text-lg font-bold text-slate-900">Estado de autenticacion</h2>
+        <p className="mt-2 text-sm text-slate-600">
+          {sessionStatus.isConfigured
+            ? sessionStatus.isAuthenticated
+              ? `Sesion detectada: ${sessionStatus.userEmail ?? "usuario autenticado"}`
+              : "Supabase conectado. No hay sesion activa."
+            : "Configura NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY para habilitar auth."}
+        </p>
       </section>
 
       <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
