@@ -18,6 +18,7 @@ Resolver 4 problemas reales:
   - `T01 - Inicializar proyecto base`
   - `T02 - Configurar UI base`
   - `T03 - Configurar Supabase y entorno`
+  - `T04 - Auth y rutas protegidas`
 
 ## Documentos Clave
 

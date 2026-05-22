@@ -25,6 +25,7 @@ src/
     (auth)/
       login/
       register/
+    onboarding/
     (dashboard)/
       dashboard/
       customers/
@@ -144,4 +145,3 @@ supabase/
 1. Activar RLS en tablas con datos de negocio.
 2. Politicas basadas en pertenencia de usuario a `business_members`.
 3. Rutas privadas protegidas por sesion activa.
-

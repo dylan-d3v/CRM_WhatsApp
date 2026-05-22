@@ -1,7 +1,7 @@
 import { cache } from "react";
 
-import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { hasSupabaseEnv } from "@/lib/supabase/env";
+import { getCurrentUser } from "@/lib/auth/user";
 
 export type SessionStatus = {
   isConfigured: boolean;
@@ -18,10 +18,7 @@ export const getSessionStatus = cache(async (): Promise<SessionStatus> => {
     };
   }
 
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   return {
     isConfigured: true,

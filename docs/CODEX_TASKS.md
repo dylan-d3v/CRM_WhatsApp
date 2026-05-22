@@ -55,7 +55,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T04 - Auth y rutas protegidas
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: login/register/onboarding basico.
 - Entregables:
   - Pantallas `/login`, `/register`, `/onboarding`.

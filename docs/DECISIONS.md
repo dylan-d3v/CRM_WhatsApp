@@ -46,3 +46,9 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: usar `@supabase/supabase-js` + `@supabase/ssr` con utilidades separadas para cliente browser y servidor.
 - Motivo: alinear auth/DB con App Router desde el inicio sin usar paquetes legacy.
 - Implicacion: se estandariza `.env.example` con `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, y se agrega helper para detectar sesion en servidor.
+
+## 2026-05-21 - Guard de rutas privadas por layout
+
+- Decision: proteger rutas privadas con layouts del App Router (`(dashboard)` y `onboarding`) en lugar de middleware.
+- Motivo: reducir complejidad en MVP y mantener flujo de auth claro por pantalla.
+- Implicacion: `/login` y `/register` redirigen a usuarios autenticados; `/dashboard` requiere sesion activa y onboarding completado.
