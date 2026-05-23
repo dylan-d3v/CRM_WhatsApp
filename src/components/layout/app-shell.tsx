@@ -3,7 +3,13 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarDays, LayoutDashboard, MessageCircleMore, Users } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  CalendarDays,
+  LayoutDashboard,
+  MessageCircleMore,
+  Users,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -14,6 +20,7 @@ type AppShellProps = {
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/customers", icon: Users, label: "Clientes" },
+  { href: "/services", icon: BriefcaseBusiness, label: "Servicios" },
   { href: null, icon: CalendarDays, label: "Citas" },
   { href: null, icon: MessageCircleMore, label: "WhatsApp" },
 ];
@@ -79,7 +86,7 @@ export function AppShell({ children }: AppShellProps) {
       </main>
 
       <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white/95 backdrop-blur md:hidden">
-        <ul className="mx-auto grid max-w-5xl grid-cols-4">
+        <ul className="mx-auto grid max-w-5xl grid-cols-5">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = Boolean(

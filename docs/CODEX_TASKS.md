@@ -92,7 +92,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T07 - Modulo servicios
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: CRUD servicios.
 - Entregables:
   - Lista, crear, editar, activar/desactivar.

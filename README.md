@@ -21,6 +21,7 @@ Resolver 4 problemas reales:
   - `T04 - Auth y rutas protegidas`
   - `T05 - Migraciones base SaaS`
   - `T06 - Modulo clientes`
+  - `T07 - Modulo servicios`
 
 ## Documentos Clave
 

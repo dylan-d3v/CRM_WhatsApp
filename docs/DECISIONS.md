@@ -64,3 +64,9 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: implementar T06 con rutas `customers` (lista/crear, detalle, editar) resolviendo `business_id` desde `business_members` del usuario autenticado.
 - Motivo: mantener aislamiento de datos por negocio y habilitar busqueda + CRUD sin esperar modulos futuros.
 - Implicacion: el onboarding ahora crea/actualiza automaticamente el registro en `businesses` para el owner, evitando usuarios autenticados sin negocio operativo.
+
+## 2026-05-23 - Modulo de servicios con activacion para citas
+
+- Decision: implementar T07 con rutas `services` (lista/crear y editar), accion de activar/desactivar y consultas separadas para servicios activos.
+- Motivo: habilitar un catalogo operativo minimo para usar en el modulo de citas sin agregar complejidad fuera del MVP.
+- Implicacion: solo los servicios activos quedaran listos para el flujo de creacion de citas en T08.
