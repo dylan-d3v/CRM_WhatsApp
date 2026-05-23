@@ -20,6 +20,7 @@ Resolver 4 problemas reales:
   - `T03 - Configurar Supabase y entorno`
   - `T04 - Auth y rutas protegidas`
   - `T05 - Migraciones base SaaS`
+  - `T06 - Modulo clientes`
 
 ## Documentos Clave
 

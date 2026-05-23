@@ -1,4 +1,8 @@
+"use client";
+
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { CalendarDays, LayoutDashboard, MessageCircleMore, Users } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -8,13 +12,15 @@ type AppShellProps = {
 };
 
 const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard, active: true },
-  { label: "Clientes", icon: Users, active: false },
-  { label: "Citas", icon: CalendarDays, active: false },
-  { label: "WhatsApp", icon: MessageCircleMore, active: false },
+  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { href: "/customers", icon: Users, label: "Clientes" },
+  { href: null, icon: CalendarDays, label: "Citas" },
+  { href: null, icon: MessageCircleMore, label: "WhatsApp" },
 ];
 
 export function AppShell({ children }: AppShellProps) {
+  const pathname = usePathname();
+
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
@@ -31,6 +37,41 @@ export function AppShell({ children }: AppShellProps) {
             Demo MVP
           </span>
         </div>
+
+        <div className="mx-auto hidden w-full max-w-5xl gap-2 px-4 pb-3 sm:flex sm:px-6">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = Boolean(
+              item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`)),
+            );
+
+            if (!item.href) {
+              return (
+                <span
+                  key={item.label}
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-400"
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{item.label}</span>
+                </span>
+              );
+            }
+
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium",
+                  isActive ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-100",
+                )}
+              >
+                <Icon className="h-4 w-4" />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
       </header>
 
       <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-24 sm:px-6 sm:py-8">
@@ -41,19 +82,33 @@ export function AppShell({ children }: AppShellProps) {
         <ul className="mx-auto grid max-w-5xl grid-cols-4">
           {navItems.map((item) => {
             const Icon = item.icon;
+            const isActive = Boolean(
+              item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`)),
+            );
+
+            if (!item.href) {
+              return (
+                <li key={item.label}>
+                  <span className="flex w-full flex-col items-center gap-1 px-2 py-2 text-xs font-medium text-slate-400">
+                    <Icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </span>
+                </li>
+              );
+            }
 
             return (
               <li key={item.label}>
-                <button
-                  type="button"
+                <Link
+                  href={item.href}
                   className={cn(
                     "flex w-full flex-col items-center gap-1 px-2 py-2 text-xs font-medium",
-                    item.active ? "text-slate-900" : "text-slate-500",
+                    isActive ? "text-slate-900" : "text-slate-500",
                   )}
                 >
                   <Icon className="h-4 w-4" />
                   <span>{item.label}</span>
-                </button>
+                </Link>
               </li>
             );
           })}

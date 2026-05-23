@@ -15,6 +15,88 @@ function withError(path: string, message: string) {
   return `${path}?error=${encodeURIComponent(message)}`;
 }
 
+function describeSupabaseError(error: { message: string; code?: string; details?: string; hint?: string }) {
+  return [error.message, error.code, error.details, error.hint].filter(Boolean).join(" ");
+}
+
+function toSlug(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 40);
+}
+
+async function buildUniqueBusinessSlug(
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  businessName: string,
+) {
+  const base = toSlug(businessName) || "negocio";
+
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const suffix = attempt === 0 ? Date.now().toString(36) : crypto.randomUUID().slice(0, 6);
+    const candidate = `${base}-${suffix}`;
+
+    const { data, error } = await supabase
+      .from("businesses")
+      .select("id")
+      .eq("slug", candidate)
+      .limit(1);
+
+    if (error) {
+      return candidate;
+    }
+
+    if (!data || data.length === 0) {
+      return candidate;
+    }
+  }
+
+  return `${base}-${crypto.randomUUID().slice(0, 8)}`;
+}
+
+async function upsertOwnerBusiness(
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  userId: string,
+  businessName: string,
+  businessPhone: string,
+) {
+  const { data: ownedBusinesses, error: ownedBusinessesError } = await supabase
+    .from("businesses")
+    .select("id")
+    .eq("owner_user_id", userId)
+    .order("created_at", { ascending: true })
+    .limit(1);
+
+  if (ownedBusinessesError) {
+    return ownedBusinessesError;
+  }
+
+  if (ownedBusinesses && ownedBusinesses.length > 0) {
+    const { error } = await supabase
+      .from("businesses")
+      .update({
+        name: businessName,
+        phone: businessPhone || null,
+      })
+      .eq("id", ownedBusinesses[0].id);
+
+    return error;
+  }
+
+  const slug = await buildUniqueBusinessSlug(supabase, businessName);
+  const { error } = await supabase.from("businesses").insert({
+    name: businessName,
+    owner_user_id: userId,
+    phone: businessPhone || null,
+    slug,
+  });
+
+  return error;
+}
+
 export async function loginAction(formData: FormData) {
   if (!hasSupabaseEnv()) {
     redirect(withError("/login", "Configura las variables de Supabase para continuar."));
@@ -99,15 +181,22 @@ export async function completeOnboardingAction(formData: FormData) {
     redirect("/login");
   }
 
-  const { error } = await supabase.auth.updateUser({
+  const businessError = await upsertOwnerBusiness(supabase, user.id, businessName, businessPhone);
+
+  if (businessError) {
+    console.error("Business onboarding error:", businessError);
+    redirect(withError("/onboarding", describeSupabaseError(businessError)));
+  }
+
+  const { error: userUpdateError } = await supabase.auth.updateUser({
     data: {
       business_name: businessName,
       business_phone: businessPhone || null,
     },
   });
 
-  if (error) {
-    redirect(withError("/onboarding", error.message));
+  if (userUpdateError) {
+    redirect(withError("/onboarding", userUpdateError.message));
   }
 
   redirect("/dashboard");

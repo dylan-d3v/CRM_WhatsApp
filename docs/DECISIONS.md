@@ -58,3 +58,9 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: crear migracion base con tablas `businesses`, `business_members`, `customers`, `services`, `appointments`, `message_templates` y `message_events`, incluyendo enums y politicas RLS.
 - Motivo: asegurar aislamiento por `business_id` desde el inicio y habilitar T06+ sin deuda de seguridad.
 - Implicacion: el acceso de lectura/escritura depende de pertenencia en `business_members`; al crear negocio se agrega automaticamente el owner como miembro.
+
+## 2026-05-23 - Modulo de clientes con contexto de negocio activo
+
+- Decision: implementar T06 con rutas `customers` (lista/crear, detalle, editar) resolviendo `business_id` desde `business_members` del usuario autenticado.
+- Motivo: mantener aislamiento de datos por negocio y habilitar busqueda + CRUD sin esperar modulos futuros.
+- Implicacion: el onboarding ahora crea/actualiza automaticamente el registro en `businesses` para el owner, evitando usuarios autenticados sin negocio operativo.

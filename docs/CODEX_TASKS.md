@@ -80,7 +80,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T06 - Modulo clientes
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: CRUD clientes + historial en detalle.
 - Entregables:
   - Lista, crear, editar, detalle.
