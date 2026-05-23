@@ -19,6 +19,7 @@ Resolver 4 problemas reales:
   - `T02 - Configurar UI base`
   - `T03 - Configurar Supabase y entorno`
   - `T04 - Auth y rutas protegidas`
+  - `T05 - Migraciones base SaaS`
 
 ## Documentos Clave
 

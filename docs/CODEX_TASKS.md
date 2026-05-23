@@ -67,7 +67,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T05 - Migraciones base SaaS
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: crear esquema inicial de datos.
 - Entregables:
   - Tablas: businesses, business_members, customers, services, appointments, message_templates, message_events.

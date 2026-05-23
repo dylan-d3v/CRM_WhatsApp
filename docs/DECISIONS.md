@@ -52,3 +52,9 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: proteger rutas privadas con layouts del App Router (`(dashboard)` y `onboarding`) en lugar de middleware.
 - Motivo: reducir complejidad en MVP y mantener flujo de auth claro por pantalla.
 - Implicacion: `/login` y `/register` redirigen a usuarios autenticados; `/dashboard` requiere sesion activa y onboarding completado.
+
+## 2026-05-23 - Esquema inicial SaaS + RLS por membresia
+
+- Decision: crear migracion base con tablas `businesses`, `business_members`, `customers`, `services`, `appointments`, `message_templates` y `message_events`, incluyendo enums y politicas RLS.
+- Motivo: asegurar aislamiento por `business_id` desde el inicio y habilitar T06+ sin deuda de seguridad.
+- Implicacion: el acceso de lectura/escritura depende de pertenencia en `business_members`; al crear negocio se agrega automaticamente el owner como miembro.
