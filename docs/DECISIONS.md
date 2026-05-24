@@ -94,3 +94,9 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: implementar T11 con nueva pantalla `/settings` para actualizar datos base del negocio (`name`, `phone`, `timezone` fija en `America/Guayaquil`) y sincronizar `user_metadata` de auth, junto con ajustes de navegacion mobile (acceso directo a configuracion, safe area en barra inferior) y empty states mas accionables en clientes/servicios/citas.
 - Motivo: cerrar una demo vendible de punta a punta con flujo operativo claro desde celular y mensajes comprensibles para soporte inicial.
 - Implicacion: el negocio puede mantener sus datos sin salir del dashboard; cuando faltan datos para crear citas, la UI guia al usuario con CTA directos sin prometer funcionalidades fuera del MVP.
+
+## 2026-05-24 - Kit comercial para cierre de venta piloto
+
+- Decision: implementar T12 con un paquete minimo de salida a venta que incluye seed reproducible de datos demo (`supabase/demo/t12_pilot_demo_seed.sql`), guia de carga (`docs/DEMO_DATA.md`), guion de demo de 3 minutos (`docs/DEMO_SCRIPT.md`) y checklist de readiness (`docs/PILOT_READY_CHECKLIST.md`).
+- Motivo: estandarizar demos comerciales para mostrar valor rapido sin agregar funcionalidades fuera del alcance MVP.
+- Implicacion: cualquier sesion de venta puede arrancar con datos consistentes, narrativa repetible y control de calidad operativo antes de iniciar pilotos.

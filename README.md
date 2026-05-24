@@ -26,6 +26,7 @@ Resolver 4 problemas reales:
   - `T09 - Dashboard diario`
   - `T10 - WhatsApp wa.me y plantillas`
   - `T11 - Configuracion y pulido MVP`
+  - `T12 - Cierre para venta piloto`
 
 ## Documentos Clave
 
@@ -35,6 +36,9 @@ Resolver 4 problemas reales:
 - `docs/ROADMAP.md`: fases y cronograma.
 - `docs/CODEX_TASKS.md`: backlog ejecutable por sesiones.
 - `docs/DECISIONS.md`: registro de decisiones y cambios.
+- `docs/DEMO_DATA.md`: guia para cargar datos demo vendibles.
+- `docs/DEMO_SCRIPT.md`: guion comercial de demo en <= 3 minutos.
+- `docs/PILOT_READY_CHECKLIST.md`: checklist de salida a piloto.
 
 ## Stack Definida
 

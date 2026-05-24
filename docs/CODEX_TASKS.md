@@ -157,13 +157,13 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T12 - Cierre para venta piloto
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: preparar entrega comercial inicial.
 - Entregables:
-  - Datos demo.
-  - Script de demo (pasos).
-  - Checklist de listo para vender.
+  - Datos demo (`docs/DEMO_DATA.md` + `supabase/demo/t12_pilot_demo_seed.sql`).
+  - Script de demo (pasos) (`docs/DEMO_SCRIPT.md`).
+  - Checklist de listo para vender (`docs/PILOT_READY_CHECKLIST.md`).
 - Aceptacion:
   - Presentacion fluida en menos de 3 minutos.
 - Verificacion:
-  - Simulacion de demo completa.
+  - Simulacion de demo completa con el guion de `docs/DEMO_SCRIPT.md`.
