@@ -47,6 +47,7 @@ src/
     dates/
     auth/
   server/
+    dashboard/
     customers/
     services/
     appointments/

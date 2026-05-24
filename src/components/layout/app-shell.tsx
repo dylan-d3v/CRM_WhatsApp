@@ -21,7 +21,7 @@ const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/customers", icon: Users, label: "Clientes" },
   { href: "/services", icon: BriefcaseBusiness, label: "Servicios" },
-  { href: null, icon: CalendarDays, label: "Citas" },
+  { href: "/appointments", icon: CalendarDays, label: "Citas" },
   { href: null, icon: MessageCircleMore, label: "WhatsApp" },
 ];
 

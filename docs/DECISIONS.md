@@ -70,3 +70,15 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: implementar T07 con rutas `services` (lista/crear y editar), accion de activar/desactivar y consultas separadas para servicios activos.
 - Motivo: habilitar un catalogo operativo minimo para usar en el modulo de citas sin agregar complejidad fuera del MVP.
 - Implicacion: solo los servicios activos quedaran listos para el flujo de creacion de citas en T08.
+
+## 2026-05-23 - Modulo de citas con agenda por fecha y estados operativos
+
+- Decision: implementar T08 con rutas `appointments` (lista/crear y editar), filtro diario por fecha, actualizacion de estado (`pending`, `confirmed`, `completed`, `cancelled`) y validacion de cliente/servicio dentro del `business_id`.
+- Motivo: cubrir el flujo operativo principal del MVP para registrar agenda diaria y mover citas por estado sin sobre-ingenieria.
+- Implicacion: la agenda usa hora local de `America/Guayaquil`; crear cita exige servicio activo, mientras edicion permite mantener historial aun si un servicio luego queda inactivo.
+
+## 2026-05-24 - Dashboard diario conectado a datos reales
+
+- Decision: implementar T09 con modulo `server/dashboard/queries.ts` y pantalla `/dashboard` conectada a Supabase por `business_id` para mostrar citas de hoy, proximas citas, clientes recientes y bloque de pendientes/canceladas.
+- Motivo: cumplir el objetivo de resumen accionable del dia sin agregar complejidad fuera del MVP.
+- Implicacion: el dashboard usa zona horaria `America/Guayaquil` para el corte diario y mantiene enlaces directos al flujo operativo de citas/clientes.

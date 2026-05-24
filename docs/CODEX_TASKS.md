@@ -103,7 +103,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T08 - Modulo citas
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: gestionar agenda diaria.
 - Entregables:
   - Lista por fecha.
@@ -116,7 +116,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T09 - Dashboard diario
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: resumen accionable del dia.
 - Entregables:
   - Citas de hoy.

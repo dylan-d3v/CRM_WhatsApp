@@ -22,6 +22,8 @@ Resolver 4 problemas reales:
   - `T05 - Migraciones base SaaS`
   - `T06 - Modulo clientes`
   - `T07 - Modulo servicios`
+  - `T08 - Modulo citas`
+  - `T09 - Dashboard diario`
 
 ## Documentos Clave
 

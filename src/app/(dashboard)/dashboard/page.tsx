@@ -1,22 +1,110 @@
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+import { Button, buttonVariants } from "@/components/ui/button";
 import { signOutAction } from "@/lib/auth/actions";
 import { getSessionStatus } from "@/lib/auth/session";
+import { cn } from "@/lib/utils";
+import {
+  getDashboardData,
+  type DashboardAppointmentItem,
+  type DashboardRecentCustomerItem,
+} from "@/server/dashboard/queries";
 
-const todayMetrics = [
-  { label: "Citas de hoy", value: "12" },
-  { label: "Confirmadas", value: "7" },
-  { label: "Pendientes", value: "3" },
-  { label: "Canceladas", value: "2" },
-];
+function formatDateTime(value: string) {
+  return new Intl.DateTimeFormat("es-EC", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "America/Guayaquil",
+  }).format(new Date(value));
+}
 
-const upcomingAppointments = [
-  { time: "09:00", customer: "Mariana P.", service: "Corte + lavado", status: "Confirmada" },
-  { time: "10:30", customer: "Carlos M.", service: "Barba premium", status: "Pendiente" },
-  { time: "12:00", customer: "Sofia G.", service: "Tinte completo", status: "Confirmada" },
-];
+function formatStatus(status: DashboardAppointmentItem["status"]) {
+  switch (status) {
+    case "pending":
+      return "Pendiente";
+    case "confirmed":
+      return "Confirmada";
+    case "completed":
+      return "Completada";
+    case "cancelled":
+      return "Cancelada";
+    default:
+      return status;
+  }
+}
+
+function statusBadgeClass(status: DashboardAppointmentItem["status"]) {
+  switch (status) {
+    case "pending":
+      return "bg-amber-100 text-amber-800";
+    case "confirmed":
+      return "bg-sky-100 text-sky-800";
+    case "completed":
+      return "bg-emerald-100 text-emerald-800";
+    case "cancelled":
+      return "bg-rose-100 text-rose-800";
+    default:
+      return "bg-slate-200 text-slate-700";
+  }
+}
+
+function EmptyState({ text }: { text: string }) {
+  return (
+    <li className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
+      {text}
+    </li>
+  );
+}
+
+function AppointmentItem({ appointment }: { appointment: DashboardAppointmentItem }) {
+  return (
+    <li className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <p className="font-semibold text-slate-900">{appointment.customerName}</p>
+          <p className="mt-1 text-sm text-slate-600">
+            {appointment.serviceName} - {formatDateTime(appointment.startsAt)}
+          </p>
+        </div>
+        <span
+          className={cn(
+            "rounded-full px-2 py-1 text-xs font-semibold",
+            statusBadgeClass(appointment.status),
+          )}
+        >
+          {formatStatus(appointment.status)}
+        </span>
+      </div>
+    </li>
+  );
+}
+
+function CustomerItem({ customer }: { customer: DashboardRecentCustomerItem }) {
+  return (
+    <li className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <p className="font-semibold text-slate-900">{customer.name}</p>
+          <p className="text-sm text-slate-600">{customer.phone}</p>
+          <p className="mt-1 text-xs text-slate-500">Registro: {formatDateTime(customer.createdAt)}</p>
+        </div>
+        <Link href={`/customers/${customer.id}`} className={buttonVariants({ size: "sm", variant: "outline" })}>
+          Ver detalle
+        </Link>
+      </div>
+    </li>
+  );
+}
 
 export default async function DashboardPage() {
-  const sessionStatus = await getSessionStatus();
+  const [sessionStatus, dashboardData] = await Promise.all([getSessionStatus(), getDashboardData()]);
+
+  const todayMetrics = [
+    { label: "Citas de hoy", value: dashboardData.summary.todayCount.toString() },
+    { label: "Proximas citas", value: dashboardData.summary.upcomingCount.toString() },
+    { label: "Pendientes", value: dashboardData.summary.pendingCount.toString() },
+    { label: "Canceladas", value: dashboardData.summary.cancelledCount.toString() },
+  ];
 
   return (
     <>
@@ -28,6 +116,12 @@ export default async function DashboardPage() {
           </article>
         ))}
       </section>
+
+      {dashboardData.errorMessage ? (
+        <section className="mt-6 rounded-xl border border-rose-200 bg-rose-50 p-4 shadow-sm sm:p-6">
+          <p className="text-sm text-rose-700">{dashboardData.errorMessage}</p>
+        </section>
+      ) : null}
 
       <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -48,31 +142,75 @@ export default async function DashboardPage() {
       <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Proximas citas</h2>
-            <p className="text-sm text-slate-500">
-              Base visual lista para conectar datos reales en los siguientes modulos.
-            </p>
+            <h2 className="text-lg font-bold text-slate-900">Citas de hoy</h2>
+            <p className="text-sm text-slate-500">Agenda del dia actual para atender y confirmar.</p>
           </div>
-          <Button size="sm">Nueva cita</Button>
+          <Link href="/appointments" className={buttonVariants({ size: "sm" })}>
+            Ver agenda completa
+          </Link>
         </div>
 
         <ul className="mt-5 space-y-3">
-          {upcomingAppointments.map((appointment) => (
-            <li
-              key={`${appointment.time}-${appointment.customer}`}
-              className="rounded-lg border border-slate-100 bg-slate-50 p-3"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <p className="font-semibold text-slate-900">{appointment.customer}</p>
-                <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">
-                  {appointment.status}
-                </span>
-              </div>
-              <p className="mt-1 text-sm text-slate-600">
-                {appointment.time} - {appointment.service}
-              </p>
-            </li>
-          ))}
+          {dashboardData.todayAppointments.length === 0 ? (
+            <EmptyState text="No hay citas para hoy." />
+          ) : (
+            dashboardData.todayAppointments.map((appointment) => (
+              <AppointmentItem key={appointment.id} appointment={appointment} />
+            ))
+          )}
+        </ul>
+      </section>
+
+      <section className="mt-6 grid gap-6 lg:grid-cols-2">
+        <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h3 className="text-base font-bold text-slate-900">Proximas citas</h3>
+              <p className="text-sm text-slate-500">Siguientes turnos desde este momento.</p>
+            </div>
+          </div>
+
+          <ul className="mt-4 space-y-3">
+            {dashboardData.upcomingAppointments.length === 0 ? (
+              <EmptyState text="No hay proximas citas registradas." />
+            ) : (
+              dashboardData.upcomingAppointments.map((appointment) => (
+                <AppointmentItem key={appointment.id} appointment={appointment} />
+              ))
+            )}
+          </ul>
+        </article>
+
+        <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+          <h3 className="text-base font-bold text-slate-900">Clientes recientes</h3>
+          <p className="mt-1 text-sm text-slate-500">Ultimos clientes registrados en el negocio.</p>
+
+          <ul className="mt-4 space-y-3">
+            {dashboardData.recentCustomers.length === 0 ? (
+              <EmptyState text="Aun no hay clientes recientes." />
+            ) : (
+              dashboardData.recentCustomers.map((customer) => (
+                <CustomerItem key={customer.id} customer={customer} />
+              ))
+            )}
+          </ul>
+        </article>
+      </section>
+
+      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+        <h3 className="text-base font-bold text-slate-900">Pendientes y canceladas</h3>
+        <p className="mt-1 text-sm text-slate-500">
+          Citas desde hoy que requieren seguimiento comercial u operativo.
+        </p>
+
+        <ul className="mt-4 space-y-3">
+          {dashboardData.pendingCancelledAppointments.length === 0 ? (
+            <EmptyState text="No hay citas pendientes o canceladas para seguimiento." />
+          ) : (
+            dashboardData.pendingCancelledAppointments.map((appointment) => (
+              <AppointmentItem key={appointment.id} appointment={appointment} />
+            ))
+          )}
         </ul>
       </section>
     </>
