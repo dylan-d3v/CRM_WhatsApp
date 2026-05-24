@@ -71,7 +71,14 @@ export default async function CustomersPage({ searchParams }: CustomersPageProps
         <ul className="mt-5 space-y-3">
           {customers.length === 0 ? (
             <li className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
-              Aun no tienes clientes registrados.
+              {normalizedSearch ? (
+                <>
+                  No encontramos clientes con <strong>&quot;{normalizedSearch}&quot;</strong>. Prueba otro
+                  termino o limpia la busqueda.
+                </>
+              ) : (
+                "Aun no tienes clientes registrados. Usa el formulario de abajo para crear el primero."
+              )}
             </li>
           ) : (
             customers.map((customer) => (

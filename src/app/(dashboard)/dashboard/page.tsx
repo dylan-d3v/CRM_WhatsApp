@@ -4,11 +4,13 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { signOutAction } from "@/lib/auth/actions";
 import { getSessionStatus } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
+import { MESSAGE_TEMPLATE_LABELS, MESSAGE_TEMPLATE_TYPES } from "@/lib/whatsapp/templates";
 import {
   getDashboardData,
   type DashboardAppointmentItem,
   type DashboardRecentCustomerItem,
 } from "@/server/dashboard/queries";
+import { openWhatsAppForAppointmentAction } from "@/server/whatsapp/actions";
 
 function formatDateTime(value: string) {
   return new Intl.DateTimeFormat("es-EC", {
@@ -48,6 +50,10 @@ function statusBadgeClass(status: DashboardAppointmentItem["status"]) {
   }
 }
 
+function pickString(value: string | string[] | undefined) {
+  return typeof value === "string" ? value : null;
+}
+
 function EmptyState({ text }: { text: string }) {
   return (
     <li className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
@@ -59,22 +65,45 @@ function EmptyState({ text }: { text: string }) {
 function AppointmentItem({ appointment }: { appointment: DashboardAppointmentItem }) {
   return (
     <li className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-      <div className="flex flex-wrap items-start justify-between gap-2">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="font-semibold text-slate-900">{appointment.customerName}</p>
           <p className="mt-1 text-sm text-slate-600">
             {appointment.serviceName} - {formatDateTime(appointment.startsAt)}
           </p>
         </div>
-        <span
-          className={cn(
-            "rounded-full px-2 py-1 text-xs font-semibold",
-            statusBadgeClass(appointment.status),
-          )}
-        >
-          {formatStatus(appointment.status)}
-        </span>
+        <div className="flex w-full flex-col items-stretch gap-2 sm:w-auto sm:min-w-56">
+          <span
+            className={cn(
+              "rounded-full px-2 py-1 text-center text-xs font-semibold",
+              statusBadgeClass(appointment.status),
+            )}
+          >
+            {formatStatus(appointment.status)}
+          </span>
+          <form action={openWhatsAppForAppointmentAction} className="flex flex-col gap-2">
+            <input type="hidden" name="appointment_id" value={appointment.id} />
+            <input type="hidden" name="return_path" value="/dashboard" />
+            <select
+              name="template_type"
+              defaultValue="reminder"
+              className="h-9 rounded-md border border-slate-300 px-2 text-sm text-slate-900 outline-none ring-slate-500 transition focus:ring-2"
+            >
+              {MESSAGE_TEMPLATE_TYPES.map((templateType) => (
+                <option key={templateType} value={templateType}>
+                  {MESSAGE_TEMPLATE_LABELS[templateType]}
+                </option>
+              ))}
+            </select>
+            <Button size="sm" type="submit" variant="secondary">
+              Abrir WhatsApp
+            </Button>
+          </form>
+        </div>
       </div>
+      <p className="mt-3 text-xs text-slate-500">
+        En MVP solo se registra la apertura del enlace de WhatsApp.
+      </p>
     </li>
   );
 }
@@ -96,7 +125,15 @@ function CustomerItem({ customer }: { customer: DashboardRecentCustomerItem }) {
   );
 }
 
-export default async function DashboardPage() {
+type DashboardPageProps = {
+  searchParams: Promise<{
+    error?: string | string[];
+  }>;
+};
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const params = await searchParams;
+  const actionError = pickString(params.error);
   const [sessionStatus, dashboardData] = await Promise.all([getSessionStatus(), getDashboardData()]);
 
   const todayMetrics = [
@@ -120,6 +157,12 @@ export default async function DashboardPage() {
       {dashboardData.errorMessage ? (
         <section className="mt-6 rounded-xl border border-rose-200 bg-rose-50 p-4 shadow-sm sm:p-6">
           <p className="text-sm text-rose-700">{dashboardData.errorMessage}</p>
+        </section>
+      ) : null}
+
+      {actionError ? (
+        <section className="mt-6 rounded-xl border border-rose-200 bg-rose-50 p-4 shadow-sm sm:p-6">
+          <p className="text-sm text-rose-700">{actionError}</p>
         </section>
       ) : null}
 

@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import {
   BriefcaseBusiness,
   CalendarDays,
+  Settings,
   LayoutDashboard,
-  MessageCircleMore,
   Users,
 } from "lucide-react";
 
@@ -20,9 +20,9 @@ type AppShellProps = {
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/customers", icon: Users, label: "Clientes" },
-  { href: "/services", icon: BriefcaseBusiness, label: "Servicios" },
   { href: "/appointments", icon: CalendarDays, label: "Citas" },
-  { href: null, icon: MessageCircleMore, label: "WhatsApp" },
+  { href: "/services", icon: BriefcaseBusiness, label: "Servicios" },
+  { href: "/settings", icon: Settings, label: "Config." },
 ];
 
 export function AppShell({ children }: AppShellProps) {
@@ -48,21 +48,7 @@ export function AppShell({ children }: AppShellProps) {
         <div className="mx-auto hidden w-full max-w-5xl gap-2 px-4 pb-3 sm:flex sm:px-6">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = Boolean(
-              item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`)),
-            );
-
-            if (!item.href) {
-              return (
-                <span
-                  key={item.label}
-                  className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-400"
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </span>
-              );
-            }
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
             return (
               <Link
@@ -81,28 +67,15 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-24 sm:px-6 sm:py-8">
+      <main className="mx-auto w-full max-w-5xl px-4 py-6 pb-28 sm:px-6 sm:py-8">
         {children}
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white/95 backdrop-blur md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
         <ul className="mx-auto grid max-w-5xl grid-cols-5">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = Boolean(
-              item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`)),
-            );
-
-            if (!item.href) {
-              return (
-                <li key={item.label}>
-                  <span className="flex w-full flex-col items-center gap-1 px-2 py-2 text-xs font-medium text-slate-400">
-                    <Icon className="h-4 w-4" />
-                    <span>{item.label}</span>
-                  </span>
-                </li>
-              );
-            }
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
             return (
               <li key={item.label}>

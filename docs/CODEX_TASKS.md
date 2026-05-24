@@ -130,7 +130,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T10 - WhatsApp `wa.me` y plantillas
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: abrir WhatsApp con mensajes prellenados.
 - Entregables:
   - Helper de construccion de URL.
@@ -144,7 +144,7 @@ Estados permitidos: `todo`, `doing`, `done`, `blocked`.
 
 ## T11 - Configuracion y pulido MVP
 
-- Estado: `todo`
+- Estado: `done`
 - Objetivo: dejar version vendible.
 - Entregables:
   - Pantalla de configuracion de negocio.

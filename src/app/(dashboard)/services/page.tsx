@@ -59,7 +59,7 @@ export default async function ServicesPage({ searchParams }: ServicesPageProps) 
         <ul className="mt-5 space-y-3">
           {services.length === 0 ? (
             <li className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
-              Aun no tienes servicios registrados.
+              Aun no tienes servicios registrados. Crea al menos uno para poder agendar citas.
             </li>
           ) : (
             services.map((service) => (

@@ -82,3 +82,15 @@ Registro de decisiones tecnicas y de producto para evitar reabrir debates en cad
 - Decision: implementar T09 con modulo `server/dashboard/queries.ts` y pantalla `/dashboard` conectada a Supabase por `business_id` para mostrar citas de hoy, proximas citas, clientes recientes y bloque de pendientes/canceladas.
 - Motivo: cumplir el objetivo de resumen accionable del dia sin agregar complejidad fuera del MVP.
 - Implicacion: el dashboard usa zona horaria `America/Guayaquil` para el corte diario y mantiene enlaces directos al flujo operativo de citas/clientes.
+
+## 2026-05-24 - Integracion WhatsApp `wa.me` con registro de apertura
+
+- Decision: implementar T10 con helper `lib/whatsapp` para construir URL `wa.me` y renderizar variables de plantilla (`{cliente}`, `{negocio}`, `{servicio}`, `{fecha}`, `{hora}`, `{precio}`), usando plantillas por defecto cuando no existe registro en `message_templates`.
+- Motivo: habilitar el flujo de venta del MVP (abrir WhatsApp con mensaje listo) sin depender de APIs externas ni automatizaciones fuera de alcance.
+- Implicacion: los botones de WhatsApp quedan disponibles en `citas` y `dashboard`, y cada apertura registra `message_events` como evidencia operativa; no se marca "mensaje enviado", solo "WhatsApp abierto".
+
+## 2026-05-24 - Configuracion de negocio y pulido mobile-first MVP
+
+- Decision: implementar T11 con nueva pantalla `/settings` para actualizar datos base del negocio (`name`, `phone`, `timezone` fija en `America/Guayaquil`) y sincronizar `user_metadata` de auth, junto con ajustes de navegacion mobile (acceso directo a configuracion, safe area en barra inferior) y empty states mas accionables en clientes/servicios/citas.
+- Motivo: cerrar una demo vendible de punta a punta con flujo operativo claro desde celular y mensajes comprensibles para soporte inicial.
+- Implicacion: el negocio puede mantener sus datos sin salir del dashboard; cuando faltan datos para crear citas, la UI guia al usuario con CTA directos sin prometer funcionalidades fuera del MVP.

@@ -51,7 +51,7 @@ src/
     customers/
     services/
     appointments/
-    templates/
+    whatsapp/
   types/
   constants/
 supabase/

@@ -24,6 +24,8 @@ Resolver 4 problemas reales:
   - `T07 - Modulo servicios`
   - `T08 - Modulo citas`
   - `T09 - Dashboard diario`
+  - `T10 - WhatsApp wa.me y plantillas`
+  - `T11 - Configuracion y pulido MVP`
 
 ## Documentos Clave
 
